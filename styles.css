@@ -1,0 +1,28 @@
+ *{
+    margin: 0px;
+    padding: 0px;
+}
+
+#container{
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 3fr 7fr;
+    gap: 10px;
+    margin: 10px;
+    padding: 5px;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 5px;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+form>input,form>button,.option{
+    padding: 5px;
+    box-shadow: 5px 5px 5px rgb(235, 228, 228);
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+}
