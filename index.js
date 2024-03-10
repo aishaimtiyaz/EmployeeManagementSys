@@ -2,15 +2,24 @@ const form = document.querySelector("form");
 const tbody = document.querySelector("tbody");
 form.addEventListener("submit",onSubmitForm);
 const addEmpBtn = document.getElementById("addEmpBtn");
-let isUpdating = false;
-const deleteHistory = {};
+let selectedRow = null;
+const deleteHistory = [];
 let ite=0;
+function updateRow(NewData)
+{ let j=0;
+     for(let i in NewData)
+     {
+      selectedRow.cells[j].innerHTML = NewData[i];
+      j++;
+     }
+     selectedRow = null;
+      addEmpBtn.innerText = "ADD Employee";
+      resetForm();
+}
 
 function onSubmitForm(event)
 {
-    console.log("inside onsubmit");
-    event.preventDefault();
-    
+    event.preventDefault();    
     let EmployeeData ={
         Name: form["Name"].value,
         Role:form["Role"].value,
@@ -19,41 +28,54 @@ function onSubmitForm(event)
         Salary:form["Salary"].value,
         Email:form["Email"].value,
     };
-    addEmployee(EmployeeData,event);
+    if(selectedRow !== null)
+    {
+      updateRow(EmployeeData);
+    }
+    else
+    {
+      addEmployee(EmployeeData,event);
+    }
 }
 
 function OnUpdateClick(event)
-{ 
-    let row = event.target.parentNode.parentNode;
-    var cols = row.querySelectorAll("td");
+{  
+    console.log("this is inside update");
+    selectedRow = event.target.parentNode.parentNode;
+    
+    var cols = selectedRow.querySelectorAll("td");
      let formFields = form.elements;
     let i=0;
-    cols.forEach(function(td) {
-        if(i<formFields.length-1)
-        {
+    cols.forEach(function (td) {
             formFields[i].value = td.innerText;
-            deleteHistory[ite][formFields[i].key] = td.innerText;
             i++;
-        }
         
      });
-    //  row.remove();
-    ite++;
-     const submitBtn = formFields[i];
-     submitBtn.innerText = "Update";
+    addEmpBtn.innerText = "Update";
+    //  let isUpdatingRow = row;
 }
+
 function OnDeleteClick(event)
 {
-//   console.log(event.target.parentNode.parentNode);
-const row = event.target.parentNode.parentNode;
-row.remove();
+  if (confirm('Are you sure to delete this record ?'))
+  {
+    let row = event.target.parentNode.parentNode;
+    var cols = row.querySelectorAll("td");
+    let deletedRecord = {};
+    let i=0;
+    cols.forEach(function (td) {
+      if(i<6)
+      deletedRecord[i] = td.innerText;
+      i++;  
+});
+    deleteHistory.push(deletedRecord);
+    console.log(deleteHistory);
+    row.remove();
+  }
 }
 
 function addEmployee(EmployeeData,event)
 {
-
-    console.log("inside addEmployee");
-    console.log(event.target);
   const tr = document.createElement("tr");
   for(let key in EmployeeData)
   {
@@ -67,12 +89,33 @@ function addEmployee(EmployeeData,event)
   const deleteBtn = document.createElement("button");
   updateBtn.innerText="edit";
   deleteBtn.innerText="delete";
+  updateBtn.style.backgroundColor="green";
+  deleteBtn.style.backgroundColor="red";
   td.appendChild(updateBtn);
   td.appendChild(deleteBtn);
   tr.appendChild(td);
   updateBtn.addEventListener("click",OnUpdateClick);
   deleteBtn.addEventListener("click",OnDeleteClick);
   tbody.appendChild(tr);
-  form.reset();
   addEmpBtn.innerText = "ADD Employee";
+  resetForm(event);
+}
+
+function resetForm()
+{
+  const formEle = document.getElementsByTagName("input");
+  const formOptionEle = document.getElementsByTagName("select");
+  
+  for(let idx in formEle)
+  {
+    console.log(formEle[idx].value);
+    formEle[idx].value ="";
+  }
+
+  for(let idx in formOptionEle)
+  {
+    console.log(formOptionEle[idx].value);
+    formEle[idx].value ="";
+  }
+  
 }

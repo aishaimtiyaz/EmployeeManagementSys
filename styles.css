@@ -4,18 +4,19 @@
 }
 
 #container{
+    height: 100vh;
     display: grid;
     grid-auto-flow: column;
     grid-template-columns: 3fr 7fr;
-    gap: 10px;
-    margin: 10px;
-    padding: 5px;
+    background-color: aliceblue;
 }
 form{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 5px;
+    margin: 10px; 
+    padding: 5px;
     font-family:Georgia, 'Times New Roman', Times, serif;
 }
 
@@ -25,4 +26,34 @@ form>input,form>button,.option{
     border: none;
     border-radius: 5px;
     margin: 5px;
+    outline: none;
+}
+input:focus{
+    outline:1px solid green;
+}
+#table{
+    margin: 15px; 
+    margin-left: 20px;
+}
+
+table,td,th{
+    padding: 10px;
+    border: 1px solid rgb(236, 233, 248);
+    border-collapse: collapse;
+    color: rgb(39, 38, 38);
+}
+td,th{
+    width: 200px;
+}
+tr:hover {background-color: #D6EEEE;}
+button{
+    padding: 7px;
+    border-radius: 5px;
+    border: none;
+    margin: 2px;
+    color: white;
+}
+#addEmpBtn{
+    color:black;
+    padding: 7px;
 }
